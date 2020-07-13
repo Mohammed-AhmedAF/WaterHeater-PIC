@@ -6,20 +6,13 @@
 #include "INTERRUPTS_interface.h"
 #include "TIMER0_interface.h"
 #include "SCHEDULER_interface.h"
-#include "SEVENSEG_interface.h"
-
-
-void vidCount(void);
-
-volatile u8 u8Number = 0;
+#include "APP_interface.h"
 
 Task_Type taskCount;
 
 void main(void) {
     
-    SEVENSEG_vidInit();
-    
-    DIO_vidSetPortValue(DIO_PORTA,0x00);
+    APP_vidInit();
     
 
     ADCON1 |= 0b11110110;
@@ -39,16 +32,4 @@ void main(void) {
     {
 
     }
-}
-
-void vidCount(void)
-{
-
-        u8Number++;
-        if (u8Number > 99)
-        {
-            u8Number = 0;
-        }
-        SEVENSEG_vidWriteNumber(u8Number);
-  
 }

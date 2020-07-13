@@ -24,6 +24,7 @@ void I2C_vidInit(u8 u8Mode)
         SSPSTAT = 0;       
        
     }
+    /*Slave mode*/
     else
     {
         
@@ -69,7 +70,7 @@ u8 I2C_u8ReceiveWithACK(void)
     return SSPBUFF;
 }
 
-void I2C_vdiSendACK(void)
+void I2C_vidSendACK(void)
 {
 }
 

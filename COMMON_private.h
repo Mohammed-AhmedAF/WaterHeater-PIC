@@ -15,6 +15,7 @@
 #define SSPCON1 * ((u8*) 0x14)
 #define SSPBUFF * ((u8*) 0x13)
 #define ADCON1 * ((volatile u8*) 0x9F)
+#define PIR1 * ((volatile u8*) 0x0C)
 
 
 

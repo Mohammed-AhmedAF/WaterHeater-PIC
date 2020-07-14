@@ -6,6 +6,7 @@
 #include "INTERRUPTS_interface.h"
 #include "TIMER0_interface.h"
 #include "SCHEDULER_interface.h"
+#include "EEPROM_interface.h"
 #include "APP_interface.h"
 
 Task_Type taskCount;
@@ -20,8 +21,9 @@ void main(void) {
     /*Task initialization*/
     taskCount.ptrfun = vidCount;
     taskCount.u16FirstDelay = 0;
-    taskCount.u16Periodicity = 1500;
+    taskCount.u16Periodicity = 5;
     taskCount.u8State = SCHEDULER_TASKSTATE_RUNNING;
+    
     
     SCHEDULER_vidInit(SCHEDULER_GLOBALINTERRUPT_RAISED);
 

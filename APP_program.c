@@ -3,10 +3,13 @@
 #include "DIO_interface.h"
 #include "I2C_interface.h"
 #include "SEVENSEG_interface.h"
+#include "EEPROM_interface.h"
 #include "APP_interface.h"
 
 volatile u8 u8Number = 0;
 
+u8 u8Val = 0;
+u8 u8Result = 0;
 
 void APP_vidInit(void)
 {
@@ -20,15 +23,17 @@ void APP_vidInit(void)
 
 void vidCount(void)
 {
-
+        
+       
+        u8 u8Val = 'b';
+        EEPROM_vidWriteByte(0,u8Val);
         u8Number++;
         if (u8Number > 99)
         {
             u8Number = 0;
         }
-        SEVENSEG_vidWriteNumber(u8Number);
+        SEVENSEG_vidWriteNumber(u8Result);
+      
+     
         
-        I2C_vidSendStart();
-        I2C_vidSendByte('a');
-        I2C_vidSendStop();
 }

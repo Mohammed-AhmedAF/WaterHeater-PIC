@@ -21,12 +21,15 @@ void APP_vidInit(void)
     SEVENSEG_vidInit();
     
     DIO_vidSetPortValue(DIO_PORTA,0x00);
+    
+    ADCON1 |= 0b11110110;
+
  
     /*Testing I2C*/
     I2C_vidInit(I2C_MODE_MASTER);
     __delay_ms(100);
-      u8 u8Val = 'b';
-      EEPROM_vidWriteByte(0,u8Val);
+
+      EEPROM_vidWriteByte(0,'b');
           __delay_ms(100);
 
       EEPROM_vidWriteByte(1,'a');

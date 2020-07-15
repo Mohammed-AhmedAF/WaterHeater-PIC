@@ -15,9 +15,6 @@ void main(void) {
     
     APP_vidInit();
     
-
-    ADCON1 |= 0b11110110;
-    
     /*Task initialization*/
     taskCount.ptrfun = vidCount;
     taskCount.u16FirstDelay = 100;

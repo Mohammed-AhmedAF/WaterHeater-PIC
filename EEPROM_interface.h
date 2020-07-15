@@ -11,9 +11,8 @@
 #define SLA_R_ACK 0x40
 #define DATA_TX_ACK 0x28
 
- u8 EEPROM_u8WriteByte(u16,u8);
- u8 EEPROM_u8ReadByte(u16,u8 *);
- void EEPROM_vidWriteByte(unsigned int,u8);
+ void EEPROM_vidWriteByte(unsigned int ,u8);
+ u8 EEPROM_u8ReadByte(unsigned int);
 
 #endif	/* EEPROM_INTERFACE_H */
 

@@ -1,3 +1,4 @@
+#include "xc.h"
 #include "Macros.h"
 #include "Std_Types.h"
 #include "COMMON_private.h"
@@ -36,6 +37,12 @@ void I2C_vidInit(u8 u8Mode)
     {
         
     }
+      SSPCON = 0b00101000;
+  SSPCON2 = 0;
+  SSPADD = (_XTAL_FREQ/(4*100000))-1;
+  SSPSTAT = 0;
+  TRISC3 = 1;
+  TRISC4 = 1;
 }
 
 void I2C_vidSendStart(void)
@@ -63,11 +70,10 @@ u8 I2C_vidSendByte(u8 u8Byte)
 {
     
     I2C_vidWait();
-    SSPBUFF = u8Byte;
-    while(GET_BIT(PIR1,7) == 0);
-    CLEAR_BIT(PIR1,7);
-    
-    return I2C_u8CheckACK();
+  SSPBUF = u8Byte;
+  while(!SSPIF); // Wait Until Completion
+  SSPIF = 0;
+  return ACKSTAT;
 }
 
 u8 I2C_u8ReceiveWithACK(void)
@@ -76,28 +82,20 @@ u8 I2C_u8ReceiveWithACK(void)
     /*Bit4: Acknowledge enable*/
     /*Receive enabled*/
     SET_BIT(SSPCON2,3);
-    while(GET_BIT(PIR1,7) == 0);
-    CLEAR_BIT(PIR1,7);
+    while(GET_BIT(PIR1,3) == 0);
+    CLEAR_BIT(PIR1,3);
     return SSPBUFF;
     
 }
 
 u8 I2C_u8ReceiveByte(void)
 {
-    
-    I2C_vidWait();
-    
-    /*Bit4: Acknowledge enable*/
-    /*Receive enabled*/
-    SET_BIT(SSPCON2,3);
-    
-    while(GET_BIT(SSPSTAT,0) == 0);
-
-    while(GET_BIT(PIR1,7) == 0);
-    CLEAR_BIT(PIR1,7);
-    
-    I2C_vidWait();
-    return SSPBUFF;
+       I2C_vidWait();
+  RCEN = 1; // Enable & Start Reception
+  while(!SSPIF); // Wait Until Completion
+  SSPIF = 0; // Clear The Interrupt Flag Bit
+  I2C_vidWait();
+  return SSPBUF; // Return The Received Byte
 }
 
 void I2C_vidSendNACK(void)
@@ -111,7 +109,7 @@ void I2C_vidSendNACK(void)
 
 void I2C_vidWait(void)
 {
-  while ((SSPCON2 & 0x1F));
+  while ((SSPSTAT & 0x04) ||(SSPCON2 & 0x1F));
 }
 
 u8 I2C_u8CheckACK(void)
@@ -120,11 +118,11 @@ u8 I2C_u8CheckACK(void)
     /*Return ACKSTAT bit, inverted because it is 1 on NACK, 0 on ACK*/
     u8 val = GET_BIT(SSPCON2,6);
     if (val == 1){
-        return 0;
+        return 1;
     }
     else
     {
-        return 1;
+        return 0;
     }
     
 }

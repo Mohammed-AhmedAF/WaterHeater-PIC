@@ -5,25 +5,42 @@
 #include "ADC_private.h"
 #include "ADC_interface.h"
 
+#define _XTAL_FREQ 4000000 
 void ADC_vidInit(void)
 {
-    /*Channel selection*/
-    CLEAR_BIT(ADCON0,3);
-    CLEAR_BIT(ADCON0,4);
-    CLEAR_BIT(ADCON0,5);
+        ADCON0 = 0b11001011;
+
+       /* A/D Conversion Clock FOSC/2*/
+    ADCS1 = 0;
+    ADCS0 = 0;
     
+ 
+
+
 }
 
-void ADC_vidStartConversion(void)
+u16 ADC_u8GetReading(u8 u8ChannelNumber)
 {
-    SET_BIT(ADCON0,0);
-}
-
-u8 ADC_u8GetReading(void)
-{
-    /*Wait for conversion to complete*/
-    while ((ADCON0,2) == 1);
+ 
+/*A/D converter module is powered up*/
+    ADON = 1;
     
-    return ADRESL;
+    /*Clear previous channel*/
+    ADCON0 &= 0b11001011;
     
+    /*Set new channel*/
+    ADCON0 |= u8ChannelNumber<<3;
+    __delay_ms(1);
+    
+    /*Start ADC conversion*/
+    GO = 1;
+    
+    /*wait until done*/
+    while (GO_DONE == 1);
+    
+    /*A/D converter module is shut-off*/
+    ADON = 0;
+    
+    /*return result*/
+    return((ADRESH<<8) + ADRESL);
 }

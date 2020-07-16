@@ -17,7 +17,7 @@ void main(void) {
     
     /*Task initialization*/
     taskCount.ptrfun = vidCount;
-    taskCount.u16FirstDelay = 100;
+    taskCount.u16FirstDelay = 50;
     taskCount.u16Periodicity = 100;
     taskCount.u8State = SCHEDULER_TASKSTATE_RUNNING;
     

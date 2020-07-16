@@ -52,10 +52,6 @@ void DIO_vidSetPinDirection(u8 u8PortNumber, u8 u8PinNumber, u8 u8Direction)
             else {
                 SET_BIT(TRISE,u8PinNumber);
             }
-            if (u8PinNumber <= DIO_PIN2)
-            {
-                SET_BIT(ADCON1,u8PinNumber);
-            }
             break;
     }
 }

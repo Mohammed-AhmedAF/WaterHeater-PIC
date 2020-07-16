@@ -9,8 +9,7 @@
 #define	ADC_INTERFACE_H
 
 void ADC_vidInit();
-void ADC_vidStartConversion(void);
-u8 ADC_u8GetReading(void);
+u16 ADC_u8GetReading(u8 u8ChannelNumber);
 
 
 #endif	/* ADC_INTERFACE_H */

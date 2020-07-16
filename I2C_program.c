@@ -37,12 +37,7 @@ void I2C_vidInit(u8 u8Mode)
     {
         
     }
-      SSPCON = 0b00101000;
-  SSPCON2 = 0;
-  SSPADD = (_XTAL_FREQ/(4*100000))-1;
-  SSPSTAT = 0;
-  TRISC3 = 1;
-  TRISC4 = 1;
+  
 }
 
 void I2C_vidSendStart(void)

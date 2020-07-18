@@ -22,40 +22,28 @@ void SEVENSEG_vidInit() {
 
     DIO_vidSetPinDirection(DIO_PORTA, DIO_PIN4, DIO_OUTPUT);
     DIO_vidSetPinDirection(DIO_PORTA, DIO_PIN5, DIO_OUTPUT);
+    SEVENSEG_vidDisableSevenSeg();
 
 }
 
 void SEVENSEG_vidWriteDigit(u8 u8Digit, u8 u8Display) {
-    if (u8Display == SEVENSEG_DIS4) {
-        DIO_vidSetPinValue(DIO_PORTA, SEVENSEG_DIS3,STD_LOW);
 
-        DIO_vidSetPinValue(DIO_PORTA, SEVENSEG_DIS4, STD_HIGH);
-        DIO_vidSetPortValue(DIO_PORTD, u8Numbers[u8Digit]);
-        __delay_ms(1);
-        DIO_vidSetPinValue(DIO_PORTA, SEVENSEG_DIS4, STD_LOW);
-        __delay_ms(1);
-        DIO_vidSetPinValue(DIO_PORTA, SEVENSEG_DIS4, STD_HIGH);
+    SEVENSEG_vidSelectDisplay(u8Display);
 
-    } else {
-        DIO_vidSetPinValue(DIO_PORTA, SEVENSEG_DIS4,STD_LOW);
-
-        DIO_vidSetPinValue(DIO_PORTA, SEVENSEG_DIS3, STD_HIGH);
-        DIO_vidSetPortValue(DIO_PORTD, u8Numbers[u8Digit]);
-        __delay_ms(1);
-        DIO_vidSetPinValue(DIO_PORTA, SEVENSEG_DIS3, STD_LOW);
-        __delay_ms(1);
-        DIO_vidSetPinValue(DIO_PORTA, SEVENSEG_DIS3, STD_HIGH);
-
-    }
+    DIO_vidSetPortValue(DIO_PORTD, u8Numbers[u8Digit]);
+    
 }
 
 void SEVENSEG_vidWriteNumber(u8 u8Number) {
     if (u8Number < 10) {
         SEVENSEG_vidWriteDigit(u8Number, SEVENSEG_DIS4);
     } else {
-        SEVENSEG_vidWriteDigit(u8Number % 10, SEVENSEG_DIS4);
         SEVENSEG_vidWriteDigit(u8Number / 10, SEVENSEG_DIS3);
+        __delay_ms(200);
+        SEVENSEG_vidWriteDigit(u8Number % 10, SEVENSEG_DIS4);
+         __delay_ms(10);
 
+        
     }
 }
 
@@ -67,24 +55,19 @@ u8 SEVENSEG_u8CheckState(void) {
     }
 }
 
-void SEVENSEG_vidSelectDisplay(u8 u8Display)
-{
-    if (u8Display == SEVENSEG_DIS4)
-    {
-     DIO_vidSetPinValue(DIO_PORTA, SEVENSEG_DIS3,STD_LOW);
+void SEVENSEG_vidSelectDisplay(u8 u8Display) {
+    if (u8Display == SEVENSEG_DIS4) {
+        DIO_vidSetPinValue(DIO_PORTA, SEVENSEG_DIS3, STD_LOW);
 
         DIO_vidSetPinValue(DIO_PORTA, SEVENSEG_DIS4, STD_HIGH);
-    }
-    else
-    {
-     DIO_vidSetPinValue(DIO_PORTA, SEVENSEG_DIS3,STD_HIGH);
+    } else {
+        DIO_vidSetPinValue(DIO_PORTA, SEVENSEG_DIS3, STD_HIGH);
 
         DIO_vidSetPinValue(DIO_PORTA, SEVENSEG_DIS4, STD_LOW);
     }
 }
 
-void SEVENSEG_vidDisableSevenSeg(void)
-{
-    DIO_vidSetPinValue(DIO_PORTA,SEVENSEG_DIS3,STD_LOW);
-    DIO_vidSetPinValue(DIO_PORTA,SEVENSEG_DIS4,STD_LOW);
+void SEVENSEG_vidDisableSevenSeg(void) {
+    DIO_vidSetPinValue(DIO_PORTA, SEVENSEG_DIS3, STD_LOW);
+    DIO_vidSetPinValue(DIO_PORTA, SEVENSEG_DIS4, STD_LOW);
 }

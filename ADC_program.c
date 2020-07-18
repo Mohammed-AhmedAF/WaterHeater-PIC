@@ -8,14 +8,13 @@
 #define _XTAL_FREQ 4000000 
 void ADC_vidInit(void)
 {
-        ADCON0 = 0b11001011;
 
        /* A/D Conversion Clock FOSC/2*/
-    ADCS1 = 0;
-    ADCS0 = 0;
-    
+    CLEAR_BIT(ADCON0,6);
+    CLEAR_BIT(ADCON0,7);
+    CLEAR_BIT(ADCON1,6);
  
-
+    SET_BIT(ADCON1,7);
 
 }
 
@@ -26,11 +25,12 @@ u16 ADC_u8GetReading(u8 u8ChannelNumber)
     ADON = 1;
     
     /*Clear previous channel*/
-    ADCON0 &= 0b11001011;
+    ADCON1 &= 0b11000111;
     
     /*Set new channel*/
-    ADCON0 |= u8ChannelNumber<<3;
-    __delay_ms(1);
+    //ADCON0 |= 2<<3;
+    ADCON0 |= u8ChannelNumber << 3;
+    __delay_ms(12);
     
     /*Start ADC conversion*/
     GO = 1;

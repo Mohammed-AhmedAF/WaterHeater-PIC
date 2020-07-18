@@ -29,6 +29,7 @@ void APP_vidInit(void) {
     /*ADC*/
     ADC_vidInit();
     /*LCD*/
+    LCD_vidInit();
 
     /*Testing I2C*/
     I2C_vidInit(I2C_MODE_MASTER);
@@ -39,7 +40,6 @@ void APP_vidInit(void) {
 }
 
 void vidCount(void) {
-    u8Result = EEPROM_u8ReadByte(0);
     u8Number++;
     if (u8Number > 99) {
         u8Number = 0;
@@ -48,7 +48,9 @@ void vidCount(void) {
     u16Temperature = (u16ADCRes * 0.488);
 
     
-        SEVENSEG_vidWriteNumber(30);
+    SEVENSEG_vidWriteNumber(u16Temperature);
+
+
 
   
 

@@ -85,11 +85,19 @@ void APP_vidCheckIncDec(void)
 {
     if (DIO_u8GetPinValue(DIO_PORTB,DIO_PIN4) == 0)
     {
-        u8Number++;
+        u8Number += 5;
     }
     if (DIO_u8GetPinValue(DIO_PORTB,DIO_PIN5) == 0)
     {
-        u8Number--;
+        if (u8Number >= 5)
+        {
+            u8Number -= 5;
+        }
+        else
+        {
+            u8Number = 5;
+        }
+            
     }
 }
 

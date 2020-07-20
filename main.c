@@ -25,8 +25,8 @@ void main(void) {
     taskUpdateDisp.u8State = SCHEDULER_TASKSTATE_RUNNING;
     
     taskGetTemperature.ptrfun = vidCount;
-    taskGetTemperature.u16FirstDelay = 50;
-    taskGetTemperature.u16Periodicity = 5;
+    taskGetTemperature.u16FirstDelay = 3;
+    taskGetTemperature.u16Periodicity = 15;
     taskGetTemperature.u8State = SCHEDULER_TASKSTATE_RUNNING;
     
     

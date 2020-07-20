@@ -9,26 +9,35 @@
 #include "EEPROM_interface.h"
 #include "APP_interface.h"
 
-Task_Type taskCount;
+Task_Type taskUpdateDisp;
+Task_Type taskGetTemperature;
+
+extern u8 u8Number;
 
 void main(void) {
     
     APP_vidInit();
     
     /*Task initialization*/
-    taskCount.ptrfun = vidCount;
-    taskCount.u16FirstDelay = 50;
-    taskCount.u16Periodicity = 100;
-    taskCount.u8State = SCHEDULER_TASKSTATE_RUNNING;
+    taskUpdateDisp.ptrfun = APP_vidUpdateSevenSeg;
+    taskUpdateDisp.u16FirstDelay = 50;
+    taskUpdateDisp.u16Periodicity = 1;
+    taskUpdateDisp.u8State = SCHEDULER_TASKSTATE_RUNNING;
+    
+    taskGetTemperature.ptrfun = vidCount;
+    taskGetTemperature.u16FirstDelay = 50;
+    taskGetTemperature.u16Periodicity = 5;
+    taskGetTemperature.u8State = SCHEDULER_TASKSTATE_RUNNING;
     
     
+   
     SCHEDULER_vidInit(SCHEDULER_GLOBALINTERRUPT_RAISED);
 
-    SCHEDULER_vidCreateTask(_SCHEDULER_GETID(taskCount),SCHEDULER_TASK0);
-    
+    SCHEDULER_vidCreateTask(_SCHEDULER_GETID(taskUpdateDisp),SCHEDULER_TASK0);
+    SCHEDULER_vidCreateTask(_SCHEDULER_GETID(taskGetTemperature),SCHEDULER_TASK1);
     
     while(1)
     {
-
+  
     }
 }

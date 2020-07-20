@@ -18,7 +18,9 @@ void INTERRUPTS_vidSetExtInterruptEdge(u8);
 void INTERRUPTS_vidPutISR(u8,void (*pt) (void));
 
 #define INTERRUPTS_TIMER0_OVF 0
-#define INTERRUPTS_EXT 1
+#define INTERRUPTS_EXT_INT0 1
+#define INTERRUPTS_PORTB_CHANGE 2
+
 #define INTERRUPTS_EDGE_RISING 0
 #define INTERRUPTS_EDGE_FALLING 1
 

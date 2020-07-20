@@ -22,8 +22,6 @@ void SEVENSEG_vidInit() {
 
     DIO_vidSetPinDirection(DIO_PORTA, DIO_PIN4, DIO_OUTPUT);
     DIO_vidSetPinDirection(DIO_PORTA, DIO_PIN5, DIO_OUTPUT);
-    SEVENSEG_vidDisableSevenSeg();
-
 }
 
 void SEVENSEG_vidWriteDigit(u8 u8Digit, u8 u8Display) {
@@ -39,9 +37,9 @@ void SEVENSEG_vidWriteNumber(u8 u8Number) {
         SEVENSEG_vidWriteDigit(u8Number, SEVENSEG_DIS4);
     } else {
         SEVENSEG_vidWriteDigit(u8Number / 10, SEVENSEG_DIS3);
-        __delay_ms(200);
+        __delay_ms(1);
         SEVENSEG_vidWriteDigit(u8Number % 10, SEVENSEG_DIS4);
-         __delay_ms(10);
+        __delay_ms(1);
 
         
     }

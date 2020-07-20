@@ -35,8 +35,11 @@ void INTERRUPTS_vidEnableInterrupt(u8 u8InterruptID)
         case INTERRUPTS_TIMER0_OVF:
             SET_BIT(INTCON,5);
             break;
-        case INTERRUPTS_EXT:
+        case INTERRUPTS_EXT_INT0:
             SET_BIT(INTCON,4);
+            break;
+        case INTERRUPTS_PORTB_CHANGE:
+            SET_BIT(INTCON,3);
             break;
     }
 }
@@ -59,8 +62,11 @@ void INTERRUPTS_vidDisableInterrupt(u8 u8InterruptID)
         case INTERRUPTS_TIMER0_OVF:
             CLEAR_BIT(INTCON,5);
             break;
-        case INTERRUPTS_EXT:
-            CLEAR_BIT(INTCON,5);
+        case INTERRUPTS_EXT_INT0:
+            CLEAR_BIT(INTCON,4);
+            break;
+        case INTERRUPTS_PORTB_CHANGE:
+            CLEAR_BIT(INTCON,3);
             break;
     }
 }
@@ -75,14 +81,19 @@ void interrupt ISR()
 {
     if (GET_BIT(INTCON,2) == 1)
     {
-
         ptrFunc_Arr[INTERRUPTS_TIMER0_OVF]();        
         /*Clearing TMR0IF*/
         CLEAR_BIT(INTCON,2);
     }
+    /*External interrupt*/
     if (GET_BIT(INTCON,1) == 1)
     {
-        ptrFunc_Arr[INTERRUPTS_EXT]();
+        ptrFunc_Arr[INTERRUPTS_EXT_INT0]();
         CLEAR_BIT(INTCON,1);
+    }
+    if (GET_BIT(INTCON,0) == 1)
+    {
+        ptrFunc_Arr[INTERRUPTS_PORTB_CHANGE]();
+        CLEAR_BIT(INTCON,0);
     }
 }

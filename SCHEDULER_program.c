@@ -24,7 +24,7 @@ void SCHEDULER_vidInit(u8 u8GlobalInterruptFlag)
 
 
 
-void SCHEDULER_vidCreateTask(const Task_Type * task, u8 u8TaskPriority) {
+void SCHEDULER_vidCreateTask(Task_Type * task, u8 u8TaskPriority) {
 	Tasks_Array[u8TaskPriority] = task;
 }
 

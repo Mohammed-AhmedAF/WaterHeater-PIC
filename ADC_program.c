@@ -30,7 +30,7 @@ u16 ADC_u8GetReading(u8 u8ChannelNumber)
     /*Set new channel*/
     //ADCON0 |= 2<<3;
     ADCON0 |= u8ChannelNumber << 3;
-    __delay_ms(12);
+    __delay_ms(1);
     
     /*Start ADC conversion*/
     GO = 1;

@@ -14,6 +14,7 @@ void APP_vidCheckOnOff(void);
 void APP_vidUpdateSevenSeg(void);
 void APP_vidAdjustTemperature(void);
 void APP_vidCheckIncDec(void);
+void APP_vidContMode(void);
 
 
 #define HEATER_PORT DIO_PORTC
@@ -27,6 +28,13 @@ void APP_vidCheckIncDec(void);
 
 #define APP_STATE_OFF 0
 #define APP_STATE_ON 1
+
+#define APP_MODE_SETTING 0
+#define APP_MODE_OPERATING 1
+
+#define APP_TIME_5SEC 781
+
+#define APP_INITIALTEMP 60
 
 #endif	/* APP_INTERFACE_H */
 

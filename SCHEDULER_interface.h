@@ -8,9 +8,9 @@
 #define _SCHEDULER_INTERFACE_H_
 
 /*Number of timer overflows for scheduler tick*/
-#define SCHEDULER_ONETICK 3
+#define SCHEDULER_ONETICK 5
 /*Number of tasks that can be inserted into array*/
-#define SCHEDULER_MAXTASKS 3
+#define SCHEDULER_MAXTASKS 4
 /*Task that has nothing to do*/
 #define SCHEDULER_NULLTASK 0
 /*Task state definitions*/
@@ -62,7 +62,7 @@ typedef struct {
 void SCHEDULER_vidInit(u8);
 void SCHEDULER_vidCountOneTick(void);
 void SCHEDULER_vidSchedule(void);
-void SCHEDULER_vidCreateTask(const Task_Type *,u8);
+void SCHEDULER_vidCreateTask(Task_Type *,u8);
 void SCHEDULER_vidDeleteTask(u8);
 
 

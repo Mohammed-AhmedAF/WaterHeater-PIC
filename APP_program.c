@@ -70,6 +70,7 @@ void APP_vidGetTemperature(void) {
  
     u16ADCRes = ADC_u8GetReading(2);
     u16Temperature = (u16ADCRes * 0.488);
+    APP_vidAdjustTemperature();
 
 }
 
@@ -79,7 +80,6 @@ void APP_vidUpdateSevenSeg(void)
     {
         SEVENSEG_vidWriteNumber(u8Number);
     }
-        APP_vidAdjustTemperature();
 
 }
 

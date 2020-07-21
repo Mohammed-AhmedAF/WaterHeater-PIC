@@ -4,7 +4,7 @@
 #include "DIO_interface.h"
 #include "SEVENSEG_interface.h"
 #include <xc.h>
-u8 u8Numbers[10] = {0b00111111, 0b00000110, 0b01011011, 0b01001111, 0b01100110, 0b01101101, 0b01111101, 0b00100111, 0b01111111, 0b01101111};
+u8 u8Numbers[11] = {0b00111111, 0b00000110, 0b01011011, 0b01001111, 0b01100110, 0b01101101, 0b01111101, 0b00100111, 0b01111111, 0b01101111,0x00};
 
 #define _XTAL_FREQ 4000000
 
@@ -66,8 +66,9 @@ void SEVENSEG_vidSelectDisplay(u8 u8Display) {
 }
 
 void SEVENSEG_vidDisableSevenSeg(void) {
-    DIO_vidSetPortValue(DIO_PORTD,0x00);
-    DIO_vidSetPinValue(DIO_PORTA, SEVENSEG_DIS3, STD_LOW);
-    DIO_vidSetPinValue(DIO_PORTA, SEVENSEG_DIS4, STD_LOW);
+  SEVENSEG_vidWriteDigit(10, SEVENSEG_DIS3);
+        __delay_ms(1);
+        SEVENSEG_vidWriteDigit(10, SEVENSEG_DIS4);
+        __delay_ms(1);
    
 }

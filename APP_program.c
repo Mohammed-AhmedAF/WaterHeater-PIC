@@ -63,6 +63,7 @@ void APP_vidInit(void) {
     
     /*SevenSeg initially disabled*/
     SEVENSEG_vidDisableSevenSeg();
+    
 }
 
 void APP_vidGetTemperature(void) {
@@ -74,7 +75,10 @@ void APP_vidGetTemperature(void) {
 
 void APP_vidUpdateSevenSeg(void)
 {
+    if (u8SystemState == APP_STATE_ON)
+    {
         SEVENSEG_vidWriteNumber(u8Number);
+    }
         APP_vidAdjustTemperature();
 
 }
@@ -90,7 +94,7 @@ void APP_vidCheckOnOff(void)
         SEVENSEG_vidDisableSevenSeg();
         u8SystemState = APP_STATE_OFF;
     }
-
+    DIO_vidTogglePin(DIO_PORTB,DIO_PIN7);
 
 }
 

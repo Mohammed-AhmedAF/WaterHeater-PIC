@@ -24,13 +24,13 @@ void main(void) {
     taskUpdateDisp.u16Periodicity = 1;
     taskUpdateDisp.u8State = SCHEDULER_TASKSTATE_RUNNING;
     
-    taskGetTemperature.ptrfun = vidCount;
+    taskGetTemperature.ptrfun = APP_vidGetTemperature;
     taskGetTemperature.u16FirstDelay = 3;
     taskGetTemperature.u16Periodicity = 15;
     taskGetTemperature.u8State = SCHEDULER_TASKSTATE_RUNNING;
     
     
-   
+  
     SCHEDULER_vidInit(SCHEDULER_GLOBALINTERRUPT_RAISED);
 
     SCHEDULER_vidCreateTask(_SCHEDULER_GETID(taskUpdateDisp),SCHEDULER_TASK0);

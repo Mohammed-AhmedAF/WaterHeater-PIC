@@ -66,6 +66,8 @@ void SEVENSEG_vidSelectDisplay(u8 u8Display) {
 }
 
 void SEVENSEG_vidDisableSevenSeg(void) {
+    DIO_vidSetPortValue(DIO_PORTD,0x00);
     DIO_vidSetPinValue(DIO_PORTA, SEVENSEG_DIS3, STD_LOW);
     DIO_vidSetPinValue(DIO_PORTA, SEVENSEG_DIS4, STD_LOW);
+   
 }

@@ -8,7 +8,7 @@
 #define _SCHEDULER_INTERFACE_H_
 
 /*Number of timer overflows for scheduler tick*/
-#define SCHEDULER_ONETICK 5
+#define SCHEDULER_ONETICK 3
 /*Number of tasks that can be inserted into array*/
 #define SCHEDULER_MAXTASKS 3
 /*Task that has nothing to do*/

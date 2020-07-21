@@ -9,8 +9,8 @@
 #define	APP_INTERFACE_H
 
 void APP_vidInit(void);
-void vidCount(void);
-void APP_vidGetButtons(void);
+void APP_vidGetTemperature(void);
+void APP_vidCheckOnOff(void);
 void APP_vidUpdateSevenSeg(void);
 void APP_vidAdjustTemperature(void);
 void APP_vidCheckIncDec(void);
@@ -24,6 +24,9 @@ void APP_vidCheckIncDec(void);
 
 #define HLED_PORT DIO_PORTB
 #define HLED_PIN DIO_PIN7
+
+#define APP_STATE_OFF 0
+#define APP_STATE_ON 1
 
 #endif	/* APP_INTERFACE_H */
 

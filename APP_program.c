@@ -17,6 +17,8 @@
 
 
 volatile u8 u8Number = 0;
+/*Storing the state of whole system (on,off)*/
+volatile u8 u8SystemState = APP_STATE_OFF;
 
 u8 u8Val = 0;
 u8 u8Result = 0;
@@ -26,16 +28,19 @@ u8 u8Flag = 1;
 
 void APP_vidInit(void) {
     SEVENSEG_vidInit();
+    
+    /*LM35 connected to pin A2*/
     DIO_vidSetPinDirection(DIO_PORTA, DIO_PIN2, DIO_INPUT);
     
+    /*Pin B0, ON/OFF button*/
     DIO_vidSetPinDirection(DIO_PORTB,DIO_PIN0,DIO_INPUT);
-        DIO_vidControlPullUp(DIO_PULLUP);
+    DIO_vidControlPullUp(DIO_PULLUP);
 
         
     /*RB0 interrupt*/
     INTERRUPTS_vidEnableInterrupt(INTERRUPTS_EXT_INT0);
     INTERRUPTS_vidSetExtInterruptEdge(INTERRUPTS_EDGE_FALLING);
-    INTERRUPTS_vidPutISR(INTERRUPTS_EXT_INT0,APP_vidGetButtons);
+    INTERRUPTS_vidPutISR(INTERRUPTS_EXT_INT0,APP_vidCheckOnOff);
     
     /*RB4, RB5 interrupt*/
     INTERRUPTS_vidEnableInterrupt(INTERRUPTS_PORTB_CHANGE);
@@ -53,12 +58,14 @@ void APP_vidInit(void) {
     /*Testing I2C*/
     I2C_vidInit(I2C_MODE_MASTER);
     __delay_ms(30);
-    SEVENSEG_vidWriteNumber(u16Temperature);
 
     DIO_vidSetPinDirection(HLED_PORT,HLED_PIN,DIO_OUTPUT);
+    
+    /*SevenSeg initially disabled*/
+    SEVENSEG_vidDisableSevenSeg();
 }
 
-void vidCount(void) {
+void APP_vidGetTemperature(void) {
  
     u16ADCRes = ADC_u8GetReading(2);
     u16Temperature = (u16ADCRes * 0.488);
@@ -72,11 +79,17 @@ void APP_vidUpdateSevenSeg(void)
 
 }
 
-void APP_vidGetButtons(void)
+void APP_vidCheckOnOff(void)
 {
-        u8Number++;
-        DIO_vidTogglePin(DIO_PORTB,DIO_PIN7);
-        DIO_vidSetPinValue(DIO_PORTC,DIO_PIN5,STD_HIGH);
+    if (u8SystemState == APP_STATE_OFF)
+    {
+        u8SystemState = APP_STATE_ON;
+    }
+    else
+    {
+        SEVENSEG_vidDisableSevenSeg();
+        u8SystemState = APP_STATE_OFF;
+    }
 
 
 }

@@ -75,8 +75,7 @@ void APP_vidGetTemperature(void) {
     u16ADCRes = ADC_u8GetReading(2);
     u16Temperature = (u16ADCRes * 0.488);
     /*Only adjust temperature if the system is in operating mode*/
-    if (u8SystemMode == APP_MODE_OPERATING)
-    {
+    if (u8SystemMode == APP_MODE_OPERATING) {
         APP_vidAdjustTemperature();
     }
 }
@@ -125,31 +124,36 @@ void APP_vidCheckIncDec(void) {
 }
 
 void APP_vidAdjustTemperature(void) {
-        if (u16Temperature >= u8Number + 5) {
-            DIO_vidSetPinValue(HEATER_PORT, HEATER_PIN, STD_LOW);
-            /*Cooler on*/
-            DIO_vidSetPinValue(COOLER_PORT, COOLER_PIN, STD_HIGH);
-            DIO_vidSetPinValue(HLED_PORT, HLED_PIN, STD_LOW);
-        }
-        if (u16Temperature < u8Number - 5) {
-            DIO_vidSetPinValue(HEATER_PORT, HEATER_PIN, STD_HIGH);
+    if (u16Temperature >= u8Number + 5) {
+        DIO_vidSetPinValue(HEATER_PORT, HEATER_PIN, STD_LOW);
+        /*Cooler on*/
+        DIO_vidSetPinValue(COOLER_PORT, COOLER_PIN, STD_HIGH);
+        DIO_vidSetPinValue(HLED_PORT, HLED_PIN, STD_LOW);
+    }
+    if (u16Temperature < u8Number - 5) {
+        DIO_vidSetPinValue(HEATER_PORT, HEATER_PIN, STD_HIGH);
 
-            /*Cooler off*/
-            DIO_vidSetPinValue(COOLER_PORT, COOLER_PIN, STD_LOW);
-            DIO_vidSetPinValue(HLED_PORT, HLED_PIN, STD_HIGH);
-        }
+        /*Cooler off*/
+        DIO_vidSetPinValue(COOLER_PORT, COOLER_PIN, STD_LOW);
+        DIO_vidSetPinValue(HLED_PORT, HLED_PIN, STD_HIGH);
+    }
 }
 
 void APP_vidContMode(void) {
-    u8Timer++;
-    if (u8Timer == 32)
+
+    static u8 u8Count = 0;
+    u8Count++;
+    if (u8Count == 1)
     {
-    if (u8BtnPressed == 1) {
-        u8BtnPressed = 0;
-        u8SystemMode = APP_MODE_SETTING;
-    } else {
-        u8SystemMode = APP_MODE_OPERATING;
+        if (u8BtnPressed == 1) {
+            u8BtnPressed = 0;
+            u8SystemMode = APP_MODE_SETTING;
+        } else {
+            u8SystemMode = APP_MODE_OPERATING;
+        }
+            u8Count = 0;
     }
-    u8Timer = 0;
-    }
+     DIO_vidTogglePin(HLED_PORT, HLED_PIN);
+
+    
 }

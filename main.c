@@ -31,7 +31,7 @@ void main(void) {
     
     taskContMode.ptrfun = APP_vidContMode;
     taskContMode.u16FirstDelay = 0;
-    taskContMode.u16Periodicity = 250;
+    taskContMode.u16Periodicity = 1562;
     taskContMode.u8State = SCHEDULER_TASKSTATE_RUNNING;
     
   

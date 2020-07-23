@@ -149,6 +149,8 @@ void APP_vidContMode(void) {
             u8BtnPressed = 0;
             u8SystemMode = APP_MODE_SETTING;
         } else {
+            /*Storing set temperature in EEPROM*/
+            EEPROM_vidWriteByte(0,u8Number);
             u8SystemMode = APP_MODE_OPERATING;
         }
             u8Count = 0;

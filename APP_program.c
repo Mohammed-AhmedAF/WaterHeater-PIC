@@ -24,6 +24,7 @@ volatile u8 u8BtnPressed = 1;
 volatile u16 u16ADCRes;
 volatile u16 u16Temperature;
 volatile u8 u8Timer = 0;
+volatile u8 u8HeaterFlag = 0;
 
 u8 u8Flag = 1;
 
@@ -72,7 +73,7 @@ void APP_vidInit(void) {
 
 void APP_vidGetTemperature(void) {
 
-    u16ADCRes = ADC_u8GetReading(2);
+    u16ADCRes = ADC_u8GetReading(ADC_CHANNEL2);
     u16Temperature = (u16ADCRes * 0.488);
     /*Only adjust temperature if the system is in operating mode*/
     if (u8SystemMode == APP_MODE_OPERATING) {
@@ -81,9 +82,24 @@ void APP_vidGetTemperature(void) {
 }
 
 void APP_vidUpdateSevenSeg(void) {
+    static u8 u8BlinkCount = 0;
+    static u8 u8BlinkFlag = 0;
     if (u8SystemState == APP_STATE_ON) {
         if (u8SystemMode == APP_MODE_SETTING) {
-            SEVENSEG_vidWriteNumber(u8Number);
+            u8BlinkCount++;
+            
+                if (u8BlinkFlag == 1)
+                {
+                    SEVENSEG_vidWriteNumber(u8Number);
+                }
+                else
+                {
+                    SEVENSEG_vidDisableSevenSeg();
+                }
+            if (u8BlinkCount == 156)
+            {
+                TOGGLE_BIT(u8BlinkFlag,0);
+            }
         } else {
             SEVENSEG_vidWriteNumber(u16Temperature);
         }
@@ -125,17 +141,19 @@ void APP_vidCheckIncDec(void) {
 
 void APP_vidAdjustTemperature(void) {
     if (u16Temperature >= u8Number + 5) {
+        /*Heater off*/
         DIO_vidSetPinValue(HEATER_PORT, HEATER_PIN, STD_LOW);
+        u8HeaterFlag = 0;
         /*Cooler on*/
         DIO_vidSetPinValue(COOLER_PORT, COOLER_PIN, STD_HIGH);
-        DIO_vidSetPinValue(HLED_PORT, HLED_PIN, STD_LOW);
     }
     if (u16Temperature < u8Number - 5) {
+        /*Heater on*/
         DIO_vidSetPinValue(HEATER_PORT, HEATER_PIN, STD_HIGH);
+        u8HeaterFlag = 1;
 
         /*Cooler off*/
         DIO_vidSetPinValue(COOLER_PORT, COOLER_PIN, STD_LOW);
-        DIO_vidSetPinValue(HLED_PORT, HLED_PIN, STD_HIGH);
     }
 }
 
@@ -161,6 +179,13 @@ void APP_vidContMode(void) {
 
 void APP_vidContLED(void)
 {
-     DIO_vidTogglePin(HLED_PORT, HLED_PIN);
-
+    if (u8HeaterFlag == 1)
+    {
+        DIO_vidTogglePin(HLED_PORT, HLED_PIN);
+    }
+    else 
+    {
+        DIO_vidSetPinValue(HLED_PORT,HLED_PIN,STD_HIGH);
+    }
+    
 }

@@ -15,6 +15,7 @@ void APP_vidUpdateSevenSeg(void);
 void APP_vidAdjustTemperature(void);
 void APP_vidCheckIncDec(void);
 void APP_vidContMode(void);
+void APP_vidContLED(void);
 
 
 #define HEATER_PORT DIO_PORTC

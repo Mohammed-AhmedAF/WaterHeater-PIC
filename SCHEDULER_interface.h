@@ -10,7 +10,7 @@
 /*Number of timer overflows for scheduler tick*/
 #define SCHEDULER_ONETICK 5
 /*Number of tasks that can be inserted into array*/
-#define SCHEDULER_MAXTASKS 4
+#define SCHEDULER_MAXTASKS 5
 /*Task that has nothing to do*/
 #define SCHEDULER_NULLTASK 0
 /*Task state definitions*/

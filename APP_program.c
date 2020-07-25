@@ -155,7 +155,12 @@ void APP_vidContMode(void) {
         }
             u8Count = 0;
     }
-     DIO_vidTogglePin(HLED_PORT, HLED_PIN);
 
     
+}
+
+void APP_vidContLED(void)
+{
+     DIO_vidTogglePin(HLED_PORT, HLED_PIN);
+
 }
